@@ -11,11 +11,11 @@
  *
  * ZERO DEPENDENCIES, ON PURPOSE
  *
- * `fetch`, `AbortController`, `TextDecoder` and `crypto.randomUUID` are all
- * platform globals in Node 18+, Bun, Deno, Cloudflare Workers and every
- * browser. An SDK for an inference gateway is very often installed *into* an
- * edge runtime, and a dependency that assumes Node is exactly what makes that
- * fail at deploy time rather than at install time.
+ * `fetch`, `AbortController` and `TextDecoder` are platform globals in every
+ * supported runtime. Web Crypto is global in browsers, edge runtimes and
+ * current Node releases; Node 18 gets the same API from its built-in
+ * `node:crypto` module. An SDK for an inference gateway is very often installed
+ * *into* an edge runtime, so the Node fallback is loaded only when needed.
  *
  * RETRIES ARE NARROW AND IDEMPOTENT, WHICH IS THE WHOLE POINT
  *
@@ -154,7 +154,7 @@ export class HttpClient {
       // Sent on every write, not only on the retry, because the gateway keys
       // on it *when it first sees the request* — adding it on the second
       // attempt would be a different request as far as the server is concerned.
-      headers["Idempotency-Key"] = options.idempotencyKey ?? newIdempotencyKey();
+      headers["Idempotency-Key"] = options.idempotencyKey ?? (await newIdempotencyKey());
     }
 
     let lastError: InfroError | InfroConnectionError | undefined;
@@ -262,16 +262,29 @@ function sleep(ms: number, signal?: AbortSignal): Promise<void> {
 }
 
 /** A key the gateway can deduplicate on. */
-function newIdempotencyKey(): string {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
-    return crypto.randomUUID();
-  }
-  // Every supported runtime has `randomUUID`; this exists so an unusual one
-  // degrades to a still-unique key rather than to no key at all, which would
-  // silently make retries unsafe.
+async function newIdempotencyKey(): Promise<string> {
+  const crypto = await runtimeCrypto();
+  if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
+
   const bytes = new Uint8Array(16);
   crypto.getRandomValues(bytes);
   return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+/** Web Crypto without turning the browser build into a Node-only package. */
+async function runtimeCrypto(): Promise<Crypto> {
+  if (globalThis.crypto) return globalThis.crypto;
+
+  // Node 18 exposes Web Crypto from its built-in module but not always as a
+  // global. Keep the specifier dynamic so browser and edge bundlers do not try
+  // to resolve a Node built-in on a branch they will never execute.
+  const nodeCryptoSpecifier = "node:crypto";
+  const nodeCrypto = (await import(/* @vite-ignore */ nodeCryptoSpecifier)) as {
+    webcrypto?: Crypto;
+  };
+  if (nodeCrypto.webcrypto) return nodeCrypto.webcrypto;
+
+  throw new Error("This runtime does not provide a secure random-number generator");
 }
 
 /** Read an environment variable without assuming Node. */

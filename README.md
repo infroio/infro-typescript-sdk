@@ -42,9 +42,10 @@ talk to it. What the OpenAI SDK cannot express is the rest of the platform:
 
 ## Runtime support
 
-Zero dependencies, built on platform globals: `fetch`, `AbortController`,
-`TextDecoder`, `crypto.randomUUID`. Node 18+, Bun, Deno, Cloudflare Workers,
-Vercel Edge, and browsers.
+Zero dependencies, built on platform APIs: `fetch`, `AbortController`,
+`TextDecoder`, and Web Crypto. Node 18+, Bun, Deno, Cloudflare Workers, Vercel
+Edge, and browsers. On Node 18, the SDK loads Web Crypto from the built-in
+`node:crypto` module when it is not available globally.
 
 The package is **ESM-only**. Node 22.12 and later can `require("@infro.io/sdk")`
 through `require(esm)`; on Node 18 and 20 a CommonJS caller needs
