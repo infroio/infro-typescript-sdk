@@ -1,6 +1,6 @@
 {
   "name": "@infro.io/sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The official TypeScript client for the INFRO API — one endpoint for text, image, video and audio models.",
   "license": "MIT",
   "homepage": "https://infro.io",
