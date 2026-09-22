@@ -75,7 +75,7 @@ const DEFAULT_MAX_RETRIES = 2;
 const RETRYABLE_STATUSES = new Set([408, 429, 502, 503]);
 
 /** Package version, sent in `User-Agent` so support can identify a client. */
-export const VERSION = "0.1.0";
+export const VERSION = "0.1.2";
 
 export class HttpClient {
   readonly baseUrl: string;

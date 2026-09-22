@@ -81,7 +81,7 @@ describe("every request", () => {
 
     const headers = calls[0]!.init.headers as Record<string, string>;
     expect(headers.Authorization).toBe(`Bearer ${KEY}`);
-    expect(headers["User-Agent"]).toMatch(/^infro-typescript\//);
+    expect(headers["User-Agent"]).toBe("infro-typescript/0.1.2");
   });
 
   it("carries an idempotency key on a write", async () => {
