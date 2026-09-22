@@ -1,0 +1,56 @@
+{
+  "name": "@infro.io/sdk",
+  "version": "0.1.0",
+  "description": "The official TypeScript client for the INFRO API — one endpoint for text, image, video and audio models.",
+  "license": "MIT",
+  "homepage": "https://infro.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infroio/typescript-sdk.git"
+  },
+  "keywords": [
+    "infro",
+    "ai",
+    "llm",
+    "openai",
+    "image-generation",
+    "video-generation",
+    "gateway"
+  ],
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepublishOnly": "npm run typecheck && npm run test && npm run build",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "vitest": "^4.1.11",
+    "@types/node": "^24.13.3"
+  },
+  "bugs": {
+    "url": "https://github.com/infroio/typescript-sdk/issues",
+    "email": "support@infro.io"
+  }
+}
