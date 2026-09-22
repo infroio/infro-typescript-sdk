@@ -1,7 +1,7 @@
 # @infro.io/sdk
 
 [![npm](https://img.shields.io/npm/v/%40infro.io%2Fsdk)](https://www.npmjs.com/package/@infro.io/sdk)
-[![CI](https://github.com/infroio/typescript-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/infroio/typescript-sdk/actions/workflows/ci.yml)
+[![CI](https://github.com/infroio/infro-typescript-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/infroio/infro-typescript-sdk/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-ready-3178c6.svg)](https://www.typescriptlang.org/)
 

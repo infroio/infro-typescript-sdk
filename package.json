@@ -6,7 +6,7 @@
   "homepage": "https://infro.io",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/infroio/typescript-sdk.git"
+    "url": "git+https://github.com/infroio/infro-typescript-sdk.git"
   },
   "keywords": [
     "infro",
@@ -50,7 +50,7 @@
     "@types/node": "^24.13.3"
   },
   "bugs": {
-    "url": "https://github.com/infroio/typescript-sdk/issues",
+    "url": "https://github.com/infroio/infro-typescript-sdk/issues",
     "email": "support@infro.io"
   }
 }
