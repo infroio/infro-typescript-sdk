@@ -4,6 +4,12 @@ All three INFRO SDKs share one version line: a customer reading a changelog
 should not have to work out which of three independent version numbers applies
 to them.
 
+## 0.1.1
+
+- Link the package metadata to its public GitHub repository and issue tracker.
+- Preserve Node 18 support by loading Web Crypto from Node's built-in module
+  when it is not available globally.
+
 ## 0.1.0
 
 First release.
